@@ -1,3 +1,4 @@
+import 'package:carsh/model/fuel_consumption.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../l10n/localization.dart';
@@ -100,6 +101,7 @@ class RefuelingDetails extends StatelessWidget {
   final _prefs = Preferences();
   static const currencyDigits = 2;
   static const fuelingPrecision = 2;
+  static const fuelConsumption = FuelCunsumptionMetric.QuentityPer100Distance;
   get _homeCurency => _prefs.get(CURRENCY);
   get _dateFormat => _prefs.get(DATE_FORMAT);
   get _timeFormat => _prefs.get(TIME_FORMAT);
@@ -135,7 +137,7 @@ class RefuelingDetails extends StatelessWidget {
               Text(
                   '+${_refuelingAdapter.displayedTripMileage} ${_refuelingAdapter.mileageUnitString}'),
               Text(
-                  '${(_refuelingAdapter.get().quantity! / _refuelingAdapter.displayedTripMileage! * 100).toStringAsFixed(fuelingPrecision)} ${loc.ttr(_refuelingAdapter.quantityUnitAbbrStringId)}/100 ${_refuelingAdapter.mileageUnitString}'),
+                  '${fuelConsumption.calculate(_refuelingAdapter.displayedTripMileage!, _refuelingAdapter.get().quantity!).toStringAsFixed(fuelingPrecision)} ${fuelConsumption.unit(loc, _refuelingAdapter.car?.distanceUnit, _refuelingAdapter.fuelUnit)}'),
             ],
           ),
         ),

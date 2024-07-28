@@ -283,28 +283,21 @@ class RefuelingAdapter {
     }
   }
 
-  double? displayedDistance(int? distance) =>
-      distance == null ? null : _car?.distanceUnit?.toUnit(distance.toDouble());
+  double? displayedDistance(int? distance) => distance == null ? null : _car?.distanceUnit?.toUnit(distance.toDouble());
   double? get displayedTripMileage => displayedDistance(_refueling.tripMileage);
-  double? get displayedTotalMileage =>
-      displayedDistance(_refueling.totalMileage);
-  int _getFuelIndex(int? fuelId) =>
-      _car!.fuelTanks.indexWhere((i) => i.type == fuelId);
+  double? get displayedTotalMileage => displayedDistance(_refueling.totalMileage);
+  int _getFuelIndex(int? fuelId) => _car!.fuelTanks.indexWhere((i) => i.type == fuelId);
   int get _carFuelIndex => _getFuelIndex(_refueling.fuelTypeId);
   Expenditure get() => _refueling;
   String get mileageUnitString => _loc.ttr(_car?.distanceUnit?.abbreviated());
-  double get pricePerUnitInHomeCurrency =>
-      _refueling.pricePerUnit! * _refueling.exchangeRate!;
-  double get totalPriceInHomeCurrency =>
-      pricePerUnitInHomeCurrency * _refueling.quantity!;
+  double get pricePerUnitInHomeCurrency => _refueling.pricePerUnit! * _refueling.exchangeRate!;
+  double get totalPriceInHomeCurrency => pricePerUnitInHomeCurrency * _refueling.quantity!;
   String? get quantityUnitStringId => _fuelUnit?.name;
   String? get quantityUnitAbbrStringId => _fuelUnit?.nameAbbreviated;
   FuelType? get fuelType => _fuelType;
   FuelUnit? get fuelUnit => _fuelUnit;
-  List<FuelType?>? get fuelTypes =>
-      _car?.fuelTanks.map((i) => _fuelTypes.get(i.type)).toList();
-  List<FuelUnit> get fuelUnits =>
-      _fuelUnits.where(_fuelUnit!.unitType).toList();
+  List<FuelType?>? get fuelTypes => _car?.fuelTanks.map((i) => _fuelTypes.get(i.type)).toList();
+  List<FuelUnit> get fuelUnits => _fuelUnits.where(_fuelUnit!.unitType).toList();
   int? getCarInitialMileage(int? carId) => _cars.get(carId)?.initialMileage;
   Car? get car => _car;
 }

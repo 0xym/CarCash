@@ -53,9 +53,10 @@ class MyApp extends StatelessWidget {
                       builder: (c, data) =>
                           data.connectionState == ConnectionState.waiting
                               ? Center(child: CircularProgressIndicator())
-                              : cars.keys?.length == 0
-                                  ? AddCarScreen.mainScreen()
-                                  : ExpenseListScreen(),
+                              : cars.keys == null ? Text("Platform unsupported: Database Missing") :
+                                  cars.keys?.length == 0
+                                      ? AddCarScreen.mainScreen()
+                                      : ExpenseListScreen(),
                     ),
                   ),
                   routes: Routes.routes,

@@ -25,7 +25,7 @@ enum ExpenditureDbKeys {//r == refueling
   quantity(REAL),
   fuelUnitId(INT),//r
   fuelTypeId(INT),//r
-  mileage(REAL),//or rename to tripMileage
+  mileage(INT),//or rename to tripMileage
   currency(TEXT),
   discountType(INT),
   discountValue(REAL),
