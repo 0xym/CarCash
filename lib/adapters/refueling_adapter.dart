@@ -1,5 +1,6 @@
 import 'package:carsh/providers/expenditures.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n/localization.dart';
@@ -75,6 +76,7 @@ class RefuelingAdapter {
         timestamp: timestamp);
     if (carId != null) {
       _car = _cars.get(carId);
+      _sanitizeFuelInfo();
     }
     if (fuelTypeId != null) {
       _fuelType = _fuelTypes.get(fuelTypeId);
@@ -283,9 +285,14 @@ class RefuelingAdapter {
     }
   }
 
+  int? distanceSincePreviousRefuelingOfAType(Expenditures expenditures) {
+    final prevMileage = expenditures.itemAtIndex(expenditures.previousRefuelingIndexOfTheSameFuel(_refueling))?.totalMileage;
+    return (_refueling.totalMileage == null || prevMileage == null) ? null : _refueling.totalMileage! - prevMileage;
+  }
   double? displayedDistance(int? distance) => distance == null ? null : _car?.distanceUnit?.toUnit(distance.toDouble());
   double? get displayedTripMileage => displayedDistance(_refueling.tripMileage);
   double? get displayedTotalMileage => displayedDistance(_refueling.totalMileage);
+  double? displayedDistanceSincePreviousRefuelingOfAType(Expenditures expenditures) => displayedDistance(distanceSincePreviousRefuelingOfAType(expenditures));
   int _getFuelIndex(int? fuelId) => _car!.fuelTanks.indexWhere((i) => i.type == fuelId);
   int get _carFuelIndex => _getFuelIndex(_refueling.fuelTypeId);
   Expenditure get() => _refueling;

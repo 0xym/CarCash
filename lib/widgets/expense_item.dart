@@ -1,10 +1,12 @@
 import 'package:carsh/model/fuel_consumption.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../l10n/localization.dart';
 import '../adapters/refueling_adapter.dart';
 import '../model/car.dart';
 import '../model/preferences.dart';
+import '../providers/expenditures.dart';
 import '../screens/add_expense_screen.dart';
 import '../utils/global_preferences.dart';
 
@@ -116,6 +118,8 @@ class RefuelingDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = Localization.of(context);
+    final expenditures = Provider.of<Expenditures>(context, listen: false);
+    final fuelConsumptionDistance = _refuelingAdapter.displayedDistanceSincePreviousRefuelingOfAType(expenditures) ?? _refuelingAdapter.displayedTotalMileage!;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -137,7 +141,7 @@ class RefuelingDetails extends StatelessWidget {
               Text(
                   '+${_refuelingAdapter.displayedTripMileage} ${_refuelingAdapter.mileageUnitString}'),
               Text(
-                  '${fuelConsumption.calculate(_refuelingAdapter.displayedTripMileage!, _refuelingAdapter.get().quantity!).toStringAsFixed(fuelingPrecision)} ${fuelConsumption.unit(loc, _refuelingAdapter.car?.distanceUnit, _refuelingAdapter.fuelUnit)}'),
+                  '${fuelConsumption.calculate(fuelConsumptionDistance, _refuelingAdapter.get().quantity!).toStringAsFixed(fuelingPrecision)} ${fuelConsumption.unit(loc, _refuelingAdapter.car?.distanceUnit, _refuelingAdapter.fuelUnit)}'),
             ],
           ),
         ),

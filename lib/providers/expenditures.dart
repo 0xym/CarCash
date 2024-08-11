@@ -42,10 +42,19 @@ class Expenditures extends ChangeNotifier {
   }
 
   int previousRefuelingIndexOfCar(Expenditure refueling) {
+    // assert(refueling.costType == ExpenditureType.Refueling);//TODO fix
     final idx = _previousExpenditureIndex(refueling, _items);
     return idx == _items.length
         ? -1
         : _items.indexWhere((item) => (item.carId == refueling.carId && item.costType == ExpenditureType.Refueling), idx);
+  }
+
+  int previousRefuelingIndexOfTheSameFuel(Expenditure refueling) {
+    // assert(refueling.costType == ExpenditureType.Refueling);//TODO fix
+    final idx = _previousExpenditureIndex(refueling, _items);
+    return idx == _items.length
+      ? -1 
+      : _items.indexWhere((item) => (item.carId == refueling.carId && item.costType == ExpenditureType.Refueling && item.fuelTypeId == refueling.fuelTypeId), idx);
   }
 
   int _nextRefuelingIndex(Expenditure refueling) =>
