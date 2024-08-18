@@ -225,7 +225,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                             )),
                       )
                       .toList(),
-                  value: _prefs.get(DEFAULT_CAR),
+                  value: _refuelingAdapter!.car!.id!,
                   isExpanded: true,
                   onChanged: (id) =>
                       setState(() => _refuelingAdapter!.set(carId: id)),

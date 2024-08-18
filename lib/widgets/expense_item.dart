@@ -119,7 +119,7 @@ class RefuelingDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = Localization.of(context);
     final expenditures = Provider.of<Expenditures>(context, listen: false);
-    final fuelConsumptionDistance = _refuelingAdapter.displayedDistanceSincePreviousRefuelingOfAType(expenditures) ?? _refuelingAdapter.displayedTotalMileage!;
+    final fuelConsumptionDistance = _refuelingAdapter.displayedDistanceSincePreviousRefuelingOfAType(expenditures) ?? (_refuelingAdapter.displayedTotalMileage! - _refuelingAdapter.displayedDistance(_refuelingAdapter.car!.initialMileage)!);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
